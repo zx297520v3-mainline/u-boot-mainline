@@ -1116,6 +1116,14 @@ config ARCH_RENESAS
 	imply OF_UPSTREAM
 	imply SYS_THUMB_BUILD
 
+config ARCH_ZX
+	bool "Sanechips SoCs"
+	select CPU_V7A
+	select DM
+	select OF_CONTROL
+	help
+	  Support for the Sanechips SoCs zx29 family.
+
 config ARCH_SNAPDRAGON
 	bool "Qualcomm Snapdragon SoCs"
 	select ARM64
@@ -2352,6 +2360,8 @@ source "arch/arm/mach-mmp/Kconfig"
 source "arch/arm/mach-qemu/Kconfig"
 
 source "arch/arm/mach-rockchip/Kconfig"
+
+source "arch/arm/mach-zx/Kconfig"
 
 source "arch/arm/mach-s5pc1xx/Kconfig"
 

@@ -1,0 +1,32 @@
+if ARCH_ZX
+
+config SYS_SOC
+	default "zx297520v3"
+
+config SYS_VENDOR
+	default "zx"
+
+choice
+	prompt "Sanechips board select"
+
+config TARGET_ZX297520V3
+	bool "Sanechips ZX297520V3 cursed SoC"
+	select CPU_V7A
+	help
+	  The Sanechips ZX297520V3 is a ARM64-based SoC with cursed AArch32 mode.
+
+endchoice
+
+config SYS_BOARD
+	string "Board name"
+	default "zx297520v3" if TARGET_ZX297520V3
+	default ""
+	help
+	  This option contains information about board name.
+	  Based on this option board/<CONFIG_SYS_VENDOR>/<CONFIG_SYS_BOARD> will
+	  be used.
+
+config SYS_CONFIG_NAME
+	default "zx297520v3" if TARGET_ZX297520V3
+
+endif
