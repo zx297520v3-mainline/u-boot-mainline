@@ -1,0 +1,71 @@
+// SPDX-License-Identifier: GPL-2.0
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+
+/dts-v1/;
+
+/ {
+	compatible = "sanechips,zx297520v3";
+	#address-cells = <1>;
+	#size-cells = <1>;
+
+	chosen { };
+	aliases { };
+	memory {
+		device_type = "memory";
+		reg = <0x20000000 0x8000000>;
+	};
+
+	clk26m: oscillator-0 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <26000000>;
+		clock-output-names = "clk26m";
+	};
+
+
+	soc {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "simple-bus";
+		interrupt-parent = <&gic>;
+		ranges;
+
+		uart0: serial@131000 {
+			compatible = "arm,pl011", "arm,primecell";
+			reg = <0x131000 0x1000>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "uartclk", "apb_pclk";
+			status = "disabled";
+		};
+
+		uart1: serial@1408000 {
+			compatible = "arm,pl011", "arm,primecell";
+			reg = <0x1408000 0x1000>;
+			clocks = <&clk26m>, <&clk26m>;
+			clock-names = "uartclk", "apb_pclk";
+			skip-init;
+		};
+
+		usb0: usb@1500000 {
+			compatible = "snps,dwc2";
+			dr_mode = "otg";
+			reg = <0x1500000 0x40000>;
+			interrupts = <GIC_SPI 41 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&clk26m>;
+			clock-names = "otg";
+			hnp-disable;
+			srp-disable;
+		};
+
+		gic: interrupt-controller@f2000000 {
+			compatible = "arm,gic-v3";
+			interrupt-controller;
+			#interrupt-cells = <3>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			reg = <0xf2000000 0x10000>,
+			      <0xf2040000 0x20000>;
+		};
+	};
+};
