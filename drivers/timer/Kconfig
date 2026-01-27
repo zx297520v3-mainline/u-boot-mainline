@@ -340,4 +340,11 @@ config STARFIVE_TIMER
 	  Select this to enable support for the timer found on
 	  Starfive SoC.
 
+config ZX29_TIMER
+	bool "Sanechips ZX29 timer support"
+	depends on TIMER
+	help
+	  Select this to enable support for the timer found on
+	  ZX29 devices.
+
 endmenu
