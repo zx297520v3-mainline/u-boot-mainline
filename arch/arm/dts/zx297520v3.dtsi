@@ -9,7 +9,10 @@
 	#address-cells = <1>;
 	#size-cells = <1>;
 
-	chosen { };
+	chosen {
+		tick-timer = &timer;
+	};
+
 	aliases { };
 	memory {
 		device_type = "memory";
@@ -37,6 +40,14 @@
 			clocks = <&clk26m>, <&clk26m>;
 			clock-names = "uartclk", "apb_pclk";
 			status = "disabled";
+		};
+
+		timer: timer@142000 {
+			compatible = "sanechips,timer";
+			reg = <0x142000 0x1000>;
+			clocks = <&clk26m>;
+			clock-names = "timer";
+			clock-frequency = <26000000>;
 		};
 
 		uart1: serial@1408000 {
