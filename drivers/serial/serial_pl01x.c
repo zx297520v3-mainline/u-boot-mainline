@@ -57,12 +57,14 @@ static int pl01x_getc(struct pl01x_regs *regs)
 
 	data = readl(&regs->dr);
 
+#ifndef CONFIG_ZX29_PL011_SERIAL
 	/* Check for an error flag */
 	if (data & 0xFFFFFF00) {
 		/* Clear the error */
 		writel(0xFFFFFFFF, &regs->ecr);
 		return -1;
 	}
+#endif
 
 	return (int) data;
 }
@@ -77,10 +79,12 @@ static int pl01x_generic_serial_init(struct pl01x_regs *regs,
 				     enum pl01x_type type)
 {
 	switch (type) {
+#ifndef CONFIG_ZX29_PL011_SERIAL
 	case TYPE_PL010:
 		/* disable everything */
 		writel(0, &regs->pl010_cr);
 		break;
+#endif
 	case TYPE_PL011:
 		/* disable everything */
 		writel(0, &regs->pl011_cr);
@@ -108,6 +112,7 @@ static int pl01x_generic_setbrg(struct pl01x_regs *regs, enum pl01x_type type,
 				int clock, int baudrate)
 {
 	switch (type) {
+#ifndef CONFIG_ZX29_PL011_SERIAL
 	case TYPE_PL010: {
 		unsigned int divisor;
 
@@ -147,6 +152,7 @@ static int pl01x_generic_setbrg(struct pl01x_regs *regs, enum pl01x_type type,
 		writel(UART_PL010_CR_UARTEN, &regs->pl010_cr);
 		break;
 	}
+#endif
 	case TYPE_PL011: {
 		unsigned int temp;
 		unsigned int divider;
@@ -431,7 +437,7 @@ DM_DRIVER_ALIAS(serial_pl01x, arm_pl011)
 DM_DRIVER_ALIAS(serial_pl01x, arm_pl010)
 #endif
 
-#if defined(CONFIG_DEBUG_UART_PL010) || defined(CONFIG_DEBUG_UART_PL011)
+#if defined(CONFIG_DEBUG_UART_PL010) || defined(CONFIG_DEBUG_UART_PL011) || defined (CONFIG_DEBUG_UART_ZX29)
 
 #include <debug_uart.h>
 

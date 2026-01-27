@@ -405,6 +405,15 @@ config DEBUG_UART_PL011
 	  work. The driver will be available until the real driver model
 	  serial is running.
 
+config DEBUG_UART_ZX29
+	bool "pl011 for zx29"
+	depends on PL01X_SERIAL || PL011_SERIAL
+	help
+	  Select this to enable a debug UART using the pl01x driver with the
+	  PL011 UART type. You will need to provide parameters to make this
+	  work. The driver will be available until the real driver model
+	  serial is running.
+
 config DEBUG_UART_PIC32
 	bool "Microchip PIC32"
 	depends on PIC32_SERIAL
@@ -1088,6 +1097,13 @@ config STM32_SERIAL
 	  If you have a machine based on a STM32 F4, F7, H7 or MP1 SOC
 	  you can enable its onboard serial ports, say Y to this option.
 	  If unsure, say N.
+
+config ZX29_PL011_SERIAL
+	bool "Cursed PL011 driver for ZX297520V3"
+	depends on DM_SERIAL && PL01X_SERIAL && ARCH_ZX
+	default n
+	help
+	  Select this to get insane.
 
 config ZYNQ_SERIAL
 	bool "Cadence (Xilinx Zynq) UART support"

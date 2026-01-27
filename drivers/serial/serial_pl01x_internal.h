@@ -19,6 +19,7 @@
  * only in common registers.
  */
 struct pl01x_regs {
+#ifndef CONFIG_ZX29_PL011_SERIAL
 	u32	dr;		/* 0x00 Data register */
 	u32	ecr;		/* 0x04 Error clear register (Write) */
 	u32	pl010_lcrh;	/* 0x08 Line control register, high byte */
@@ -36,6 +37,18 @@ struct pl01x_regs {
 	u32	pl011_fbrd;	/* 0x28 Fractional baud rate register */
 	u32	pl011_lcrh;	/* 0x2C Line control register */
 	u32	pl011_cr;	/* 0x30 Control register */
+#else
+	u32 pad; // 0x0
+	u32 dr; // 0x4
+	u32 pad1[3]; // 0x8, 0xc, 0x10
+	u32 fr; // 0x14
+	u32 pad2[3]; // 0x18, 0x1c, 0x20
+	u32 pl011_ibrd; // 0x24
+	u32 pl011_fbrd; // 0x28
+	u32 pad3[2]; // 0x2c, 0x30
+	u32 pl011_lcrh; // 0x30
+	u32 pl011_cr; // 0x34
+#endif
 };
 
 #if CONFIG_IS_ENABLED(DM_SERIAL)
