@@ -7,6 +7,7 @@
 #include <init.h>
 #include <asm/system.h>
 #include <asm/global_data.h>
+#include <asm/io.h>
 #include <linux/sizes.h>
 
 DECLARE_GLOBAL_DATA_PTR;
@@ -32,7 +33,7 @@ int dram_init(void)
 
 void reset_cpu(void)
 {
-  printf("oh noes.");
-  while(1);
+	writel(1, 0x13b000);
+	while(1);
 }
 
