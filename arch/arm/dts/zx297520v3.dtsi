@@ -42,12 +42,24 @@
 			status = "disabled";
 		};
 
+		topcrm: topcrm@13b000 {
+			compatible = "sanechips,zx297520v3-topcrm-clk";
+			reg = <0x13b000 0x1000>;
+			#clock-cells = <1>;
+		};
+
 		timer: timer@142000 {
 			compatible = "sanechips,timer";
 			reg = <0x142000 0x1000>;
 			clocks = <&clk26m>;
 			clock-names = "timer";
 			clock-frequency = <26000000>;
+		};
+
+		matrixclk: matrixclk@1306000 {
+			// compatible set in the board dts
+			reg = <0x1306000 0x1000>;
+			#clock-cells = <1>;
 		};
 
 		uart1: serial@1408000 {
