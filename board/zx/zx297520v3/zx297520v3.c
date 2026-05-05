@@ -14,6 +14,8 @@
 #define RM_TIMER_SEL		1
 #define RM_TIMER_DIV1		0
 
+extern void zx_gic_secure_setup(void);
+
 int board_early_init_f(void) {
 	int val;
 
@@ -37,6 +39,8 @@ int board_early_init_f(void) {
 	// just in case phys timer is not started
 	val = 1;
 	asm volatile("mcr p15, 0, %0, c14, c2, 1" : : "r" (val));
+
+	zx_gic_secure_setup();
 
 	return 0;
 }
